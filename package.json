@@ -1,0 +1,14 @@
+{
+  "name": "counterservice",
+  "version": "1.0.0",
+  "description": "simple counter service",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Shiran Shalev",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
