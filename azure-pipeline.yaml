@@ -1,0 +1,33 @@
+trigger:
+  branches:
+    include:
+    - test
+name: $(Build.DefinitionName)$(rev:.r)
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: refs/heads/test
+jobs:
+- job: Job_1
+  displayName: Agent job 1
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  - checkout: self
+    clean: true
+    fetchTags: false
+  - task: Docker@0
+    displayName: build
+    inputs:
+      containerregistrytype: Container Registry
+      dockerRegistryEndpoint: f43aba36-42d3-401f-974e-53a93997ad6d
+      imageName: shiranshalev/counter-service:$(Build.BuildId)
+  - task: Docker@0
+    displayName: Push an image
+    inputs:
+      containerregistrytype: Container Registry
+      dockerRegistryEndpoint: f43aba36-42d3-401f-974e-53a93997ad6d
+      action: Push an image
+      imageName: shiranshalev/counter-service:$(Build.BuildId)
+...
