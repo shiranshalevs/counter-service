@@ -8,4 +8,4 @@ COPY . .
 
 EXPOSE 80
 
-CMD [ "node", "dist/app.js" ]
+CMD [ "node", "app.js" ]
