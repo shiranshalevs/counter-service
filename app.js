@@ -4,6 +4,7 @@ const http = require('http');
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 
+
 // Initialize the database
 const adapter = new FileSync('db.json');
 const db = low(adapter);
@@ -28,3 +29,5 @@ app.get('/', (req, res) => {
   app.listen(80, () => {
     console.log('Counter service listening on port 80');
   });
+
+  module.exports = app;

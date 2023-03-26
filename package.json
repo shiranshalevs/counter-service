@@ -4,12 +4,17 @@
   "description": "simple counter service",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "mocha"
   },
   "author": "Shiran Shalev",
   "license": "ISC",
   "dependencies": {
+    "chai": "^4.3.7",
     "express": "^4.18.2",
-    "lowdb": "^1.0.0"
+    "lowdb": "^1.0.0",
+    "mocha": "^10.2.0",
+    "sinon": "^15.0.3",
+    "supertest": "^6.3.3"
   }
 }
