@@ -6,7 +6,7 @@ const FileSync = require('lowdb/adapters/FileSync');
 
 
 // Initialize the database
-const adapter = new FileSync('db.json');
+const adapter = new FileSync('db/db.json');
 const db = low(adapter);
 
 // Set up the counter in the database
