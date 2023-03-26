@@ -7,16 +7,30 @@ resources:
   repositories:
   - repository: self
     type: git
-    ref: refs/heads/test
+    ref: test
 jobs:
 - job: Job_1
-  displayName: Agent job 1
+  displayName: 'Build '
   pool:
     vmImage: ubuntu-latest
   steps:
   - checkout: self
     clean: true
     fetchTags: false
+  - task: Docker@0
+    displayName: build Integration test image
+    inputs:
+      containerregistrytype: Container Registry
+      dockerRegistryEndpoint: f43aba36-42d3-401f-974e-53a93997ad6d
+      dockerFile: '**/test.Dockerfile'
+      imageName: shiranshalev/counter-service-tests:$(Build.BuildId)
+  - task: Docker@0
+    displayName: push integration test image
+    inputs:
+      containerregistrytype: Container Registry
+      dockerRegistryEndpoint: f43aba36-42d3-401f-974e-53a93997ad6d
+      action: Push an image
+      imageName: shiranshalev/counter-service-tests:$(Build.BuildId)
   - task: Docker@0
     displayName: build
     inputs:
