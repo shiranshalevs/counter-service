@@ -10,7 +10,7 @@ after(() => {
     it('should respond with a 200 status code', async () => {
       try {
         const res = await request(app).get('/');
-        expect(res.status).to.equal(500);
+        expect(res.status).to.equal(200);
       } catch (err) {
         console.error(err);
         process.exit(1);
