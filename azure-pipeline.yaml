@@ -32,16 +32,55 @@ jobs:
       action: Push an image
       imageName: shiranshalev/counter-service-tests:$(Build.BuildId)
   - task: Docker@0
-    displayName: build
+    displayName: build counter-service image
     inputs:
       containerregistrytype: Container Registry
       dockerRegistryEndpoint: f43aba36-42d3-401f-974e-53a93997ad6d
       imageName: shiranshalev/counter-service:$(Build.BuildId)
   - task: Docker@0
-    displayName: Push an image
+    displayName: Push counter-service image to docker hub
     inputs:
       containerregistrytype: Container Registry
       dockerRegistryEndpoint: f43aba36-42d3-401f-974e-53a93997ad6d
       action: Push an image
       imageName: shiranshalev/counter-service:$(Build.BuildId)
+- job: Job_2
+  displayName: Deploy
+  dependsOn: Job_1
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  - checkout: self
+    clean: true
+    fetchTags: false
+  - task: DockerInstaller@0
+    displayName: Install Docker 17.09.0-ce
+  - task: Bash@3
+    displayName: Run integration test image before deployment
+    inputs:
+      targetType: inline
+      script: docker run shiranshalev/counter-service-tests:$(Build.BuildId)
+  - task: SSH@0
+    displayName: Deploy new counter-service image
+    inputs:
+      sshEndpoint: 638f70bf-ffed-4f44-9a52-a89f4953c020
+      runOptions: inline
+      inline: >2-
+
+        SERVICE_NAME="counter-service"
+
+        IMAGE_NAME="shiranshalev/counter-service:$(Build.BuildId)"
+
+
+        # Check if the service exists
+
+        if docker service ls --filter name=$SERVICE_NAME | grep $SERVICE_NAME > /dev/null 2>&1; then
+          # Service exists, update it with the new image
+          echo "$SERVICE_NAME service exists, updating with new image..."
+          docker service update --image $IMAGE_NAME $SERVICE_NAME
+        else
+          # Service does not exist, create it
+          echo "$SERVICE_NAME service does not exist, creating new service..."
+          docker service create --name $SERVICE_NAME --replicas 1 -p 80:80 $IMAGE_NAME
+        fi
 ...
