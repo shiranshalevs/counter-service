@@ -1,3 +1,4 @@
+#this docker compose file is here for documantaion porpuse and in case the stack in the remote machine gets deleted - will need to run this file manually on the machine.
 version: "3.6"
 
 services:
