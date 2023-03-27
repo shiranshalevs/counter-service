@@ -70,16 +70,16 @@ jobs:
         SERVICE_NAME="counter-service"
 
         IMAGE_NAME="shiranshalev/counter-service:$(Build.BuildId)"
-        
+
           # Check if the service exists
         if docker service ls --filter name=$SERVICE_NAME | grep $SERVICE_NAME > /dev/null 2>&1; then
           # Service exists, update it with the new image
           echo "$SERVICE_NAME service exists, updating with new image..."
-          docker service update --image $IMAGE_NAME $SERVICE_NAME
+          sudo docker service update --image $IMAGE_NAME $SERVICE_NAME
         else
           # Service does not exist, create it
           echo "$SERVICE_NAME service does not exist, creating new service..."
-          docker service create --name $SERVICE_NAME --replicas 1 -p 80:80 $IMAGE_NAME
+          sudo docker service create --name $SERVICE_NAME --replicas 1 -p 80:80 $IMAGE_NAME
         fi
 
 ...
