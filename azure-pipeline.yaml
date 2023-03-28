@@ -1,13 +1,13 @@
 trigger:
   branches:
     include:
-    - test
+    - main
 name: $(Build.DefinitionName)$(rev:.r)
 resources:
   repositories:
   - repository: self
     type: git
-    ref: test
+    ref: main
 jobs:
 - job: Job_1
   displayName: 'Build '
