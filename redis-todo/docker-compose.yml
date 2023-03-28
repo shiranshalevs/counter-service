@@ -1,0 +1,14 @@
+#this docker compose file is here for documantaion porpuse and in case the stack in the remote machine gets deleted - will need to run this file manually on the machine.
+version: "3.6"
+
+services:
+  counter-service:
+    image: shiranshalev/counter-service:${IMAGE_TAG}
+    ports:
+      - 80:80
+    depends_on:
+      - redis-server
+  redis-server:
+    image: redis/redis-stack-server:latest
+    ports:
+      - 6379:6379
